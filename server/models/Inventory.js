@@ -1,0 +1,35 @@
+const { Schema, model } = require('mongoose');
+
+
+
+const { Product } = require('./Product');
+
+const inventorySchema = new Schema({
+    total: {
+        type: Number,
+    },
+    productList: {
+        type: [Product],
+        }
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        }
+});
+
+
+inventorySchema.pre('save', async function (next) {
+    if (this.isNew || this.isModified('products')) {
+        this.total = this.products.reduce((acc, product) => {
+            return acc + product.price;
+        }, 0);
+    }
+
+    next();
+});
+
+
+const Inventory = model('Inventory', inventorySchema);
+
+module.exports = Inventory;
