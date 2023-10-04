@@ -23,6 +23,7 @@ const userSchema = new Schema({
     
     inventoriesList: {
       type: [Inventory],
+      allowNull: true,
     }
   },
   {

@@ -4,9 +4,9 @@ const { Schema, model } = require('mongoose');
 const productSchema = new Schema({
   UPC: {
     type: String,
-    unique: true
+    allowNull: true,
   },
-  brand: [String],
+  brand: Stringg,
   price: {
     type: Number,
   },
