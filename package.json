@@ -1,0 +1,11 @@
+{
+  "name": "inventorywiz",
+  "version": "1.0.0",
+  "description": "Web-based shopping list application using the MERN stack that allows users to manage their inventory and generate custom shopping lists based on the last purchase date",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
