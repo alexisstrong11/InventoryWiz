@@ -42,12 +42,35 @@ const resolvers = {
       return { token, user };
     },
 
-    saveProductToInventory: async (parent, { inventoryId, input }, context) => {
+    createNewProduct: async (parent, { productInput }, context) => {
+      // if (context.user) {
+        const product = await Product.create(productInput);
+        return product
+      // }
+      // throw new AuthenticationError('You need to be logged in!');
+    },
+
+    // saveInventoryToUser: async (parent, { _id }, context) => {
+    //   if (context.user) {
+    //     return User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { inventories: _id } },
+    //       { new: true }
+    //     );
+    //   }
+    //   throw new AuthenticationError('You need to be logged in!');
+    // },
+
+
+
+    saveProductToInventory: async (parent, { inventoryId, productInput }, context) => {
       // if (context.user) {
         let user =  await Inventory.findByIdAndUpdate(
           { _id: context.user._id },
           {
-            $push: { inventory: input },
+            $push: { 
+              productList: productInput 
+            },
           },
           {
             new: true,
@@ -62,10 +85,10 @@ const resolvers = {
 
     removeProductFromInventory: async (parent, { inventoryId, productId }, context) => {
       //if (context.user) {
-        return User.findByIdAndUpdate(
+        return Inventory.findByIdAndUpdate(
           { _id: context.user._id },
           { $pull: { 
-            inventory: { 
+            productList: { 
               _id : productId 
             } 
           }},
