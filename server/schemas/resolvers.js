@@ -1,6 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
-const { Inventory } = require('../models');
+const { User, Inventory, Product } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -20,6 +19,12 @@ const resolvers = {
 
       return { token, user };
     },
+
+    createNewInventory: async (parent, { inventoryName }) => {
+      const inventory = await Inventory.create({ inventoryName });
+      return inventory
+    },
+
     loginUser: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 

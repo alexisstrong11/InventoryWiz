@@ -7,30 +7,10 @@ const typeDefs = gql`
     brand: [String]
     price: Float
     description: String
-    name: String
+    name: String!
     image: String
     link: String
     category: [String]
-  }
-
-  type User {
-    _id: ID
-    username: String
-    email: String
-    password: String
-    inventories: [Inventory]
-  }
-
-  type Inventory {
-    _id: ID
-    inventoryName: String
-    priceTotal: Float
-    products: [Product]!
-  }
-
-  input InventoryInput {
-    inventoryName: String!
-    products: [ProductInput]!
   }
 
   input ProductInput {
@@ -43,6 +23,23 @@ const typeDefs = gql`
     link: String
     category: [String]
   }
+
+  type User {
+    _id: ID
+    username: String!
+    email: String!
+    password: String!
+    inventories: [Inventory]
+  }
+
+  type Inventory {
+    _id: ID!
+    inventoryName: String!
+    priceTotal: Float
+    products: [Product]
+  }
+
+
 
   type Auth {
     token: ID!
@@ -57,8 +54,8 @@ const typeDefs = gql`
 
     loginUser(email: String!, password: String!): Auth
     saveUser(username: String!, email: String!, password: String!): Auth
-    createInventory(inventoryName: String!): Inventory
-    saveInventoryToUser(inventories: InventoryInput): User
+    createNewInventory(inventoryName: String!): Inventory
+    saveInventoryToUser(_id: ID!): User
     saveProductToInventory(input: ProductInput): Inventory
     removeProductFromInventory(_id: ID!): Inventory
   }
