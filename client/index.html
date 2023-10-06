@@ -5,8 +5,62 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+      }
+      #app {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+      ul {
+          list-style-type: none;
+          padding: 0;
+      }
+      li {
+          margin-bottom: 5px;
+      }
+  </style>
   </head>
   <body>
+    <div id="app">
+      <h1>Shopping List</h1>
+      <input type="text" id="item" placeholder="Enter an item">
+      <button onclick="addItem()">Add Item</button>
+      <ul id="shopping-list">
+          <!-- Shopping list items will be added here -->
+      </ul>
+  </div>
+
+  <script>
+      function addItem() {
+          const itemInput = document.getElementById("item");
+          const itemName = itemInput.value.trim();
+          
+          if (itemName === "") {
+              alert("Please enter an item.");
+              return;
+          }
+
+          const shoppingList = document.getElementById("shopping-list");
+          const listItem = document.createElement("li");
+          listItem.textContent = itemName;
+
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.addEventListener("click", function () {
+              shoppingList.removeChild(listItem);
+          });
+
+          listItem.appendChild(deleteButton);
+          shoppingList.appendChild(listItem);
+
+          itemInput.value = "";
+      }
+  </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
