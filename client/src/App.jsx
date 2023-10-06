@@ -6,7 +6,8 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 
 const authLink = setContext((_, { headers }) => {
