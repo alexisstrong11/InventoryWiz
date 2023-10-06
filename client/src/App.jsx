@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 const authLink = setContext((_, { headers }) => {
@@ -36,11 +36,11 @@ function App() {
       <Router>
         <>
 
-          <Switch>
+          <Routes>
             <Route exact path='/' />
             <Route exact path='/saved'  />
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-          </Switch>
+          </Routes>
         </>
       </Router>
     </ApolloProvider>
