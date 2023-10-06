@@ -4,61 +4,48 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-    <style>
-      body {
-          font-family: Arial, sans-serif;
-      }
-      #app {
-          max-width: 400px;
-          margin: 0 auto;
-          padding: 20px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-      }
-      ul {
-          list-style-type: none;
-          padding: 0;
-      }
-      li {
-          margin-bottom: 5px;
-      }
-  </style>
-  </head>
-  <body>
-    <div id="app">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Inventory Wiz</title>
+</head>
+<body>
+  <header>
       <h1>Shopping List</h1>
-      <input type="text" id="item" placeholder="Enter an item">
-      <button onclick="addItem()">Add Item</button>
-      <ul id="shopping-list">
-          <!-- Shopping list items will be added here -->
+  </header>
+  <div id="shopping-list">
+      <h2>Add an item</h2>
+      <input type="text" id="item" placeholder="Enter item">
+      <button onclick="addItem()">Add</button>
+      <ul id="items">
+          <!-- Items will be displayed here -->
       </ul>
   </div>
 
   <script>
+      // JavaScript code for the shopping list
       function addItem() {
           const itemInput = document.getElementById("item");
-          const itemName = itemInput.value.trim();
-          
-          if (itemName === "") {
+          const itemText = itemInput.value.trim();
+
+          if (itemText === "") {
               alert("Please enter an item.");
               return;
           }
 
-          const shoppingList = document.getElementById("shopping-list");
+          const itemList = document.getElementById("items");
           const listItem = document.createElement("li");
-          listItem.textContent = itemName;
+          listItem.innerHTML = `
+              ${itemText}
+              <button onclick="removeItem(this)">Delete</button>
+          `;
+          itemList.appendChild(listItem);
 
-          const deleteButton = document.createElement("button");
-          deleteButton.textContent = "Delete";
-          deleteButton.addEventListener("click", function () {
-              shoppingList.removeChild(listItem);
-          });
-
-          listItem.appendChild(deleteButton);
-          shoppingList.appendChild(listItem);
-
+          // Clear the input field
           itemInput.value = "";
+      }
+
+      function removeItem(button) {
+          const listItem = button.parentElement;
+          listItem.remove();
       }
   </script>
     <div id="root"></div>
