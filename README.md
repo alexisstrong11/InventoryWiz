@@ -51,11 +51,7 @@ Below is an high level overview on how to execute and use this application.
 Steps:
 1. Clone the GitHub repository and run the necessary dependencies
 2. To use the Website, click on the deployed application link from the README.md file 	
-3. From the deployed application page, click on the Portfolio tab from the navigation bar 
-   to see the developer's completed projects.
-4. Click on Contact from the navigation bar then complete the contact form.
-5. Click on Resume from the navigation bar then click on download button to download
-   the developer's resume.
+3. 
        	
 ## Technologies Used
 The following technologies were used for the application:
