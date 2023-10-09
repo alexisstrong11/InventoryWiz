@@ -5,7 +5,8 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-
+import Inventory from './components/Inventory';
+import AppNavbar from './components/AppNavbar';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -35,12 +36,14 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      
       <Router>
+      <AppNavbar />
         <>
 
           <Routes>
-            <Route exact path='/' />
-            <Route exact path='/saved'  />
+            <Route exact path='/' Component={Inventory} />
+            
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Routes>
         </>
