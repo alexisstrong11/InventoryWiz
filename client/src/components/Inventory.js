@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Inventory = () => {
   // Sample inventory data (you should replace this with your data)
@@ -41,6 +41,9 @@ const Inventory = () => {
           }
         : item
     );
+ 
+    
+
 
     setInventory(updatedInventory);
   };
@@ -55,22 +58,22 @@ const Inventory = () => {
     <div>
       <h2>Inventory Management</h2>
       <div>
-        <label>
+        
           Item Name:
           <input
             type="text"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
-        </label>
-        <label>
+
+
           Quantity:
           <input
             type="number"
             value={itemQuantity}
             onChange={(e) => setItemQuantity(e.target.value)}
           />
-        </label>
+
         <button onClick={addItemToInventory}>Add Item</button>
       </div>
       <ul>
@@ -89,3 +92,5 @@ const Inventory = () => {
 };
 
 export default Inventory;
+
+

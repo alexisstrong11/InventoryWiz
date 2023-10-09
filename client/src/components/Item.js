@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Item = ({ id, name, quantity, onEdit, onDelete }) => {
   // State to manage item editing
@@ -8,7 +8,7 @@ const Item = ({ id, name, quantity, onEdit, onDelete }) => {
 
   // Function to toggle item editing mode
   const toggleEdit = () => {
-    setIsEditing(!isEditing);
+    setIsEditing(!isEditing); 
   };
 
   // Function to save edited item
@@ -19,6 +19,20 @@ const Item = ({ id, name, quantity, onEdit, onDelete }) => {
       setIsEditing(false);
     }
   };
+
+  function removeItem(button) {
+    const listItem = button.parentElement;
+    listItem.remove();
+}
+
+function addItem() {
+  if (itemText === "") {
+      alert("Please enter an item.");
+      return;
+  }
+
+
+  //<button onclick="removeItem(this)">Delete</button>
 
   return (
     <li>
@@ -46,6 +60,5 @@ const Item = ({ id, name, quantity, onEdit, onDelete }) => {
       )}
     </li>
   );
-};
-
+}};
 export default Item;
