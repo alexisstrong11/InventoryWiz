@@ -36,7 +36,7 @@ const typeDefs = gql`
     _id: ID!
     inventoryName: String!
     priceTotal: Float
-    products: [ID]
+    products: [Product]
   }
 
   type Auth {
