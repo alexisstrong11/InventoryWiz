@@ -1,8 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-
-
-const { Product } = require('./Product');
+const Product = require('./Product');
 
 const inventorySchema = new Schema({
     inventoryName: {
@@ -11,18 +9,18 @@ const inventorySchema = new Schema({
     },
     priceTotal: {
         type: Number,
-        allowNull: false,
         default: 0,
     },
-    productList: {
-        type: [Product],
-        allowNull: true
-        }
+    products: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+    }],
+
     },
     {
-        toJSON: {
-            virtuals: true,
-        }
+    toJSON: {
+        virtuals: true,
+    }
 });
 
 
@@ -37,7 +35,6 @@ inventorySchema.pre('save', async function (next) {
 
     next();
 });
-
 
 const Inventory = model('Inventory', inventorySchema);
 

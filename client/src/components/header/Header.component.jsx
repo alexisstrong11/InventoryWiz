@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import SignUpForm from './SignupForm';
-import LoginForm from './LoginForm';
+import SignUpForm from './SignupForm.component';
+import LoginForm from './LoginForm.component';
 
-import Auth from '../util/auth';
+import Auth from '../../util/auth';
 
-const AppNavbar = () => {
+const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
@@ -15,19 +15,19 @@ const AppNavbar = () => {
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            Google Books Search
+            InventoryWiz
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
               <Nav.Link as={Link} to='/'>
-                Search For Books
+                Search For Items
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
+              {/* if user is logged in show saved inventories and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
-                    See Your Books
+                    See Your Inventory
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
@@ -70,8 +70,9 @@ const AppNavbar = () => {
           </Modal.Body>
         </Tab.Container>
       </Modal>
+
     </>
   );
 };
 
-export default AppNavbar;
+export default Header;
