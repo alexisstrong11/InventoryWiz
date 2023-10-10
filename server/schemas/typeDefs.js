@@ -2,18 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Product {
-    _id: ID
-    UPC: String
-    brand: String
-    price: Float
-    description: String
-    name: String!
-    image: String
-    link: String
-    category: [String]
-  }
-
-  input ProductInput {
+    _id: ID!
     UPC: String
     brand: String
     price: Float!
@@ -24,8 +13,19 @@ const typeDefs = gql`
     category: [String]
   }
 
+  input ProductInput {
+    UPC: String!
+    brand: String
+    price: Float!
+    description: String
+    name: String!
+    image: String
+    link: String
+    category: [String]
+  }
+
   type User {
-    _id: ID
+    _id: ID!
     username: String!
     email: String!
     password: String!
@@ -46,6 +46,11 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    searchAllProduct: [Product]
+    searchProductUPC: [Product]
+    searchProductName: [Product]
+    searchUser(id: ID!): User
+    searchUserByName(username: String!): User
   }
 
   type Mutation {
@@ -54,9 +59,8 @@ const typeDefs = gql`
     saveUser(username: String!, email: String!, password: String!): Auth
     createNewProduct(productInput: ProductInput): Product
     createNewInventory(inventoryName: String!): Inventory
-    saveInventoryToUser(_id: ID!): User
-    saveProductToInventory(productInput: ProductInput): Inventory
-    removeProductFromInventory(_id: ID!): Inventory
+    saveProductToInventory(inventoryId: ID!, productId: ID!): Inventory
+    removeProductFromInventory(_id: ID!, productId: ID!): Inventory
   }
 `;
 

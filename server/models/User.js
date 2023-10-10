@@ -1,8 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// import schema from Book.js
-const { Inventory } = require('./Inventory');
 
 const userSchema = new Schema({
     username: {
@@ -21,11 +19,12 @@ const userSchema = new Schema({
       required: true,
     },
     
-    inventoriesList: {
-      type: [Inventory],
-      allowNull: true,
-    }
-  },
+    inventories: {
+      type: Schema.Types.ObjectId,
+      ref: 'Inventory',
+      
+    },
+},
   {
     toJSON: {
       virtuals: true,
