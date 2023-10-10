@@ -44,13 +44,15 @@ const Product = ({productData}) => {
   //<button onclick="removeProduct(this)">Delete</button>
 
   return (
-      <Col key={productData.productId} md="4">
-        <Card border='dark'>
+
+        <Card key={productData.productId} border='dark'>
           {productData.image ? (
             <Card.Img src={productData.image} alt={`The cover for ${productData.name}`} variant='top' />
           ) : null}
           <Card.Body>
             <Card.Title>{productData.name}</Card.Title>
+            <p className='small'>Brand: {productData.brand}</p>
+            <p className='small'>Price: {`$${productData.price.toFixed(2)}`}</p>
             <p className='small'>UPC: {productData.UPC}</p>
             <Card.Text>{productData.description}</Card.Text>
             {/* {Auth.loggedIn() && (
@@ -64,9 +66,7 @@ const Product = ({productData}) => {
               </Button>
             )} */}
           </Card.Body>
-        </Card>
-
-    {/* <li>
+              {/* <li>
       {isEditing ? (
         <div>
           <input
@@ -91,7 +91,10 @@ const Product = ({productData}) => {
         </div>
       )}
     </li> */}
-    </Col>
+        </Card>
+
+
+
   )
 };
 
