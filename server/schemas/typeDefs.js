@@ -15,7 +15,7 @@ const typeDefs = gql`
   }
 
   input ProductInput {
-    UPC: String!
+    UPC: String
     brand: String
     price: Float!
     description: String
@@ -64,7 +64,7 @@ const typeDefs = gql`
     addInventoryToUser(inventoryId: ID!, userId: ID!): User
     removeInventoryFromUser(_id: ID!, inventoryId: ID!): User
     addProductToInventory(inventoryId: ID!, productId: ID!): Inventory
-    removeProductFromInventory(inventoryId: ID!, productId: ID!): User
+    removeProductFromInventory(inventoryId: ID!, productId: ID!, quantity: Int): Inventory
   }
 `;
 

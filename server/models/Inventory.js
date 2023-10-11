@@ -32,9 +32,7 @@ inventorySchema.virtual('priceTotal').get(function () {
 });
 
 
-
 const Inventory = model('Inventory', inventorySchema);
-
 
 
 

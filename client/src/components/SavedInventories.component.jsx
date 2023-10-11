@@ -4,10 +4,11 @@ import {
   Card,
   Button,
   Row,
-  Col
+  Col,
+  ListGroup
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
-import { REMOVE_PRODUCT_FROM_INVENTORY } from '../util/mutations';
+import { ADD_PRODUCT_TO_INVENTORY, REMOVE_PRODUCT_FROM_INVENTORY } from '../util/mutations';
 import { QUERY_ME } from '../util/queries';
 
 
@@ -18,22 +19,46 @@ import Auth from '../util/auth';
 const Inventories = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const [userData, setUserData] = useState({});
-  const [ removeProductFromInventory ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
+  const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
+  const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_TO_INVENTORY);
+  const [ inventories, setInventories ] = useState([{}]);
+
 
   useEffect(() => {
     if (data?.me) {
       setUserData(data.me)
-      
+      setInventories(data.me.inventories)
     }
   }, [data]);
   
-  const removeProduct = (inventoryId, productId) => {
-    let newData = removeProductFromInventory({
-      variables: { inventoryId, productId }
-    });
-    console.log(newData)
-    setUserData(newData)
+  
+  const increaseProduct = async (inventoryId, productId) => {
+    try {
+      const inventory = await increaseProductQuantity({
+        variables: { inventoryId, productId }
+      });
+      // saveInventory(data.addProductToInventory);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  const decreaseProduct = async (inventoryId, productId, quantity) => {
+    try {
+      quantity = quantity - 1
+      const inventory = await decreaseProductQuantity({
+        variables: { inventoryId, productId, quantity }
+      });
+
+      // saveInventory(data.removeProductFromInventory);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+
+
 
   const countAndMergeProducts = (products) => {
     const mergedProducts = [];
@@ -72,15 +97,28 @@ const Inventories = () => {
       ) : (    
         mergedInventories?.map((inventory) => {
           return(
-          <Card style={{ width: '18rem' }} key={inventory._id}>
-            <h2>{inventory.inventoryName}</h2>
-            <h4>Inventory Total: {`$${inventory.priceTotal.toFixed(2)}`}</h4>
-            <h3>Products:</h3>
+          <Card bg='dark' text='light' style={{ width: '28rem' }} key={inventory._id}>
+            <Card.Header><h3>{inventory.inventoryName} {`$${inventory.priceTotal.toFixed(2)}`}</h3></Card.Header>
+            
+            <h5>Products:</h5>
+            <ListGroup variant='flush' >
             {inventory.products?.map((product) => {
-              return(<li key="product._id">{product.name} - {product.quantity} Price: {`$${product.quantity * product.price.toFixed(2)}`}
-              <Button color='dark' onClick={() => removeProduct(inventory._id, product._id)}>X</Button>
-              </li>)
+              return(
+              <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
+                <h4>{product.quantity} {product.name}</h4>
+                  <Container fluid='true' >{`$${product.quantity * product.price.toFixed(2)}`}
+                  <Button color='dark' style={{width: '2rem' }} onClick={() => increaseProduct(inventory._id, product._id)}>+</Button>
+                  <Button color='dark' style={{width: '2rem' }} onClick={() => decreaseProduct(inventory._id, product._id, product.quantity)}>-</Button>
+                  
+                  </Container>
+                  
+
+
+              </ListGroup.Item>)
+              
             })}
+            </ListGroup>
+
           </Card>
       
           )

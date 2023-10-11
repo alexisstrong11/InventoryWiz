@@ -108,15 +108,17 @@ mutation CreateNewInventory($inventoryName: String!, $userId: ID!) {
 `;
 
 export const ADD_PRODUCT_TO_INVENTORY = gql`
-  mutation AddProductToInventory($inventoryId: String!, $productId: String!) {
+  mutation AddProductToInventory($inventoryId: ID!, $productId: ID!) {
     addProductToInventory(inventoryId: $inventoryId, productId: $productId) {
     _id
     inventoryName
+    priceTotal
+    productCount
     products {
+      _id
       UPC
       brand
       price
-      quantity
       description
       name
       image
@@ -124,34 +126,29 @@ export const ADD_PRODUCT_TO_INVENTORY = gql`
       category
       quantity
     }
-    priceTotal
   }
-  }
+}
 `;
 
 export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
   mutation RemoveProductFromInventory($inventoryId: ID!, $productId: ID!) {
     removeProductFromInventory(inventoryId: $inventoryId, productId: $productId) {
-    username
-    inventories {
+    _id
+    inventoryName
+    priceTotal
+    productCount
+    products {
       _id
-      inventoryName
-      priceTotal
-      productCount
-      inventoryCount
-      products {
-        _id
-        UPC
-        brand
-        price
-        description
-        name
-        image
-        link
-        category
-        quantity
-      }
+      UPC
+      brand
+      price
+      description
+      name
+      image
+      link
+      category
+      quantity
     }
   }
-  }
+}
   `;

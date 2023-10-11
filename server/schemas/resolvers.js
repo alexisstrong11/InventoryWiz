@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Inventory, Product } = require('../models');
 const { signToken } = require('../utils/auth');
+const { $where } = require('../models/Product');
 
 const resolvers = {
   Query: {
@@ -147,25 +148,6 @@ const resolvers = {
     // },
     // Make it so a logged in user can only remove a book from their own user
 
-    addProductToInventory: async (parent, { inventoryId, productId }, context) => {
-      //if (context.user) {
-        let inventory = await Inventory.findByIdAndUpdate(
-          { _id: inventoryId },
-          { $push: { products: productId } },
-          { new: true,
-            upsert: true,
-           }
-        )
-        .populate({ 
-          path: 'products',
-          model: 'Product',
-        })
-        .exec();
-        return inventory
-      //}
-      //throw new AuthenticationError('You need to be logged in!');
-    },
-
     removeInventoryFromUser: async (parent, { inventoryId }, context) => {
       if (context.user) {
         return User.findByIdAndUpdate(
@@ -189,35 +171,53 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');  
     },
 
-    removeProductFromInventory: async (parent, { inventoryId, productId }, context) => {
+    addProductToInventory: async (parent, { inventoryId, productId }, context) => {
       //if (context.user) {
-        return User.findByIdAndUpdate(
-          { _id: context.user._id },
+        let inventory = await Inventory.findByIdAndUpdate(
+          { _id: inventoryId },
           
-          { $pull: { 
-            inventories: { 
-              _id : inventoryId,
-              productList: { 
-                _id : productId 
-              } 
-            }
-            
-          }},
-          { new: true }
+          { $push: { products: productId } },
+          { new: true,
+            upsert: true,
+           }
         )
-        .populate({
-          path: 'inventories',
-          model: 'Inventory',
-            populate: { 
-              path: 'products',
-              model: 'Product',
-         }
-      });
+        .populate({ 
+          path: 'products',
+          model: 'Product',
+        })
+        .exec();
+        return inventory
       //}
       //throw new AuthenticationError('You need to be logged in!');
-   },
+    },
 
-  }
+    removeProductFromInventory: async (parent, { inventoryId, productId, quantity }, context) => {
+      //if (context.user) {
+        let inventory = await Inventory.findOneAndUpdate(
+          { _id: inventoryId, products: productId },
+          { 
+          
+            $pop: { products: 1 },
+            
+          },
+
+          {   
+            new: true,
+            multi: false,
+            upsert: true,
+           }
+        )
+        .populate({ 
+          path: 'products',
+          model: 'Product',
+        })
+        .exec();
+        console.log(inventory)
+        return inventory
+      //}
+      //throw new AuthenticationError('You need to be logged in!');
+    },
+  },
 };
 
 module.exports = resolvers;
