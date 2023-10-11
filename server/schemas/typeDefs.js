@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Product {
-    _id: ID!
+    _id: ID
     UPC: String
     brand: String
     price: Float!
@@ -36,7 +36,7 @@ const typeDefs = gql`
     _id: ID!
     inventoryName: String!
     priceTotal: Float
-    products: [Product]
+    products: [Product!]
   }
 
   type Auth {

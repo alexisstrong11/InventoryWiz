@@ -29,12 +29,14 @@ const resolvers = {
         const user = await User.findById(id)
           .populate({
             path: 'inventories',
-            populate: {
-              path: 'products',
-              model: 'Product'
-          });
-        console.log(await user)
-        return (await user.populate('inventories'))
+            model: 'Inventory',
+              populate: { 
+                path: 'products',
+                model: 'Product',
+           }
+        });
+        console.log(user)
+        return (user)
       // }
       // throw new AuthenticationError('You need to be logged in!');
     },
@@ -133,7 +135,7 @@ const resolvers = {
       // if (context.user) {
         let inventory = await Inventory.findByIdAndUpdate(
           { _id: inventoryId },
-          { $push: { products: productId } },
+          { $addToSet: { products: productId } },
           { new: true,
            }
         );
