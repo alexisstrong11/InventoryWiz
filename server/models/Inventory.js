@@ -7,10 +7,6 @@ const inventorySchema = new Schema({
         type: String,
         required: true,
     },
-    priceTotal: {
-        type: Number,
-        default: 0,
-    },
     products: [{
         type: Schema.Types.ObjectId,
         ref: 'Product',
@@ -23,19 +19,23 @@ const inventorySchema = new Schema({
     }
 });
 
-
-inventorySchema.pre('save', async function (next) {
-    if (!this.isNew && this.isModified('productList')) {
-        this.total = this.products?.reduce((acc, product) => {
-            return acc + product.price;
-        }, 0)
-    } else {
-        this.priceTotal = 0;
-    }
-
-    next();
+inventorySchema.virtual('productCount').get(function () {
+    return this.products.length;
 });
 
+inventorySchema.virtual('priceTotal').get(function () {
+    let total = 0;
+    this.products.forEach(product => {
+        total += product.price;
+    });
+    return `${total.toFixed(2)}`;
+});
+
+
+
 const Inventory = model('Inventory', inventorySchema);
+
+
+
 
 module.exports = Inventory;

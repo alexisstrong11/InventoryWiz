@@ -6,7 +6,15 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id })
+        .populate({
+          path: 'inventories',
+          model: 'Inventory',
+            populate: { 
+              path: 'products',
+              model: 'Product',
+         }
+      });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -53,7 +61,7 @@ const resolvers = {
 
 
   Mutation: {
-    saveUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
 
@@ -62,7 +70,15 @@ const resolvers = {
 
 
     loginUser: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email })
+      .populate({
+        path: 'inventories',
+        model: 'Inventory',
+          populate: { 
+            path: 'products',
+            model: 'Product',
+       }
+    });;
 
       if (!user) {
         throw new AuthenticationError('No user with this email found!');
@@ -131,32 +147,74 @@ const resolvers = {
     // },
     // Make it so a logged in user can only remove a book from their own user
 
-    saveProductToInventory: async (parent, { inventoryId, productId }, context) => {
-      // if (context.user) {
+    addProductToInventory: async (parent, { inventoryId, productId }, context) => {
+      //if (context.user) {
         let inventory = await Inventory.findByIdAndUpdate(
           { _id: inventoryId },
-          { $addToSet: { products: productId } },
+          { $push: { products: productId } },
           { new: true,
+            upsert: true,
            }
-        );
+        )
+        .populate({ 
+          path: 'products',
+          model: 'Product',
+        })
+        .exec();
         return inventory
-      // }
-      // throw new AuthenticationError('You need to be logged in!');
+      //}
+      //throw new AuthenticationError('You need to be logged in!');
+    },
+
+    removeInventoryFromUser: async (parent, { inventoryId }, context) => {
+      if (context.user) {
+        return User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: { 
+            inventories: { 
+              _id : inventoryId 
+            } 
+          }},
+          { new: true }
+          )
+          .populate({
+            path: 'inventories',
+            model: 'Inventory',
+              populate: { 
+                path: 'products',
+                model: 'Product',
+           }
+        });
+      }
+      throw new AuthenticationError('You need to be logged in!');  
     },
 
     removeProductFromInventory: async (parent, { inventoryId, productId }, context) => {
       //if (context.user) {
-        return Inventory.findByIdAndUpdate(
-          { _id: inventoryId },
+        return User.findByIdAndUpdate(
+          { _id: context.user._id },
+          
           { $pull: { 
-            productList: { 
-              _id : productId 
-            } 
+            inventories: { 
+              _id : inventoryId,
+              productList: { 
+                _id : productId 
+              } 
+            }
+            
           }},
           { new: true }
-        );
-      // }
-      // throw new AuthenticationError('You need to be logged in!');
+        )
+        .populate({
+          path: 'inventories',
+          model: 'Inventory',
+            populate: { 
+              path: 'products',
+              model: 'Product',
+         }
+      });
+      //}
+      //throw new AuthenticationError('You need to be logged in!');
    },
 
   }

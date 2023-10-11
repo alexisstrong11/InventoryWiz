@@ -16,6 +16,7 @@ mutation SaveUser($username: String!, $email: String!, $password: String!) {
           image
           link
           category
+          quantity
         }
         priceTotal
         inventoryName
@@ -51,6 +52,7 @@ export const LOGIN_USER = gql`
           image
           link
           category
+          quantity
         }
       }
     }
@@ -71,12 +73,13 @@ export const CREATE_PRODUCT = gql`
     image
     link
     category
+    quantity
   }
 }
 `;
 
 export const CREATE_INVENTORY = gql`
-mutation Mutation($inventoryName: String!, $userId: ID!) {
+mutation CreateNewInventory($inventoryName: String!, $userId: ID!) {
   createNewInventory(inventoryName: $inventoryName, userId: $userId) {
     _id
     username
@@ -97,6 +100,7 @@ mutation Mutation($inventoryName: String!, $userId: ID!) {
         image
         link
         category
+        quantity
       }
     }
   }
@@ -118,6 +122,7 @@ export const ADD_PRODUCT_TO_INVENTORY = gql`
       image
       link
       category
+      quantity
     }
     priceTotal
   }
@@ -125,22 +130,28 @@ export const ADD_PRODUCT_TO_INVENTORY = gql`
 `;
 
 export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
-  mutation RemoveProductFromInventory($inventoryId: String!, $productId: String!) {
+  mutation RemoveProductFromInventory($inventoryId: ID!, $productId: ID!) {
     removeProductFromInventory(inventoryId: $inventoryId, productId: $productId) {
-    _id
-    inventoryName
-    products {
+    username
+    inventories {
       _id
-      UPC
-      brand
-      price
-      description
-      name
-      image
-      link
-      category
+      inventoryName
+      priceTotal
+      productCount
+      inventoryCount
+      products {
+        _id
+        UPC
+        brand
+        price
+        description
+        name
+        image
+        link
+        category
+        quantity
+      }
     }
-    priceTotal
   }
   }
   `;

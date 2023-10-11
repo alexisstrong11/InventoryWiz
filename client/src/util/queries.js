@@ -3,7 +3,13 @@ import { gql } from '@apollo/client';
 export const QUERY_ME = gql`
 query Me {
   me {
+    _id
+    username
+    email
+    password
     inventories {
+      _id
+      inventoryName
       priceTotal
       products {
         _id
@@ -15,13 +21,9 @@ query Me {
         image
         link
         category
+        quantity
       }
-      inventoryName
-      _id
     }
-    email
-    _id
-    username
   }
 }
 `;
@@ -40,6 +42,7 @@ query Inventory($inventoryId: ID!) {
       image
       link
       category
+      quantity
     }
     inventoryName
     _id
@@ -59,6 +62,7 @@ query searchAllProduct {
     image
     link
     category
+    quantity
   }
 }
 `;
@@ -75,6 +79,7 @@ query ProductUPC($UPC: String!) {
     image
     link
     category
+    quantity
   }
 }
 `;
@@ -91,6 +96,7 @@ query ProductName($name: String!) {
     image
     link
     category
+    quantity
   }
 }
 `;
