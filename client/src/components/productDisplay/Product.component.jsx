@@ -45,7 +45,7 @@ const Product = ({productData}) => {
 
   return (
 
-        <Card key={productData.productId} border='dark'>
+        <Card key={productData.productId} style={{ width: '18rem' }} border='dark'>
           {productData.image ? (
             <Card.Img src={productData.image} alt={`The cover for ${productData.name}`} variant='top' />
           ) : null}

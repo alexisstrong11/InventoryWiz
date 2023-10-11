@@ -26,9 +26,15 @@ const resolvers = {
     },
     searchUser: async (parent, { id }, context) => {
       // if (context.user) {
-        const user = await User.findById(id);
-        console.log(user)
-        return user
+        const user = await User.findById(id)
+          .populate({
+            path: 'inventories',
+            populate: {
+              path: 'products',
+              model: 'Product'
+          });
+        console.log(await user)
+        return (await user.populate('inventories'))
       // }
       // throw new AuthenticationError('You need to be logged in!');
     },
@@ -84,6 +90,17 @@ const resolvers = {
 
     },
 
+    addInventoryToUser: async (parent, { inventoryId, userId }, context) => {
+      //if (context.user) {
+      console.log(inventoryId, userId)
+      const user = await User.findByIdAndUpdate(userId, 
+        { $push: { inventories: inventoryId } }, 
+        { new: true });
+      return user
+      // }
+      // throw new AuthenticationError('You need to be logged in!');
+    },
+        
     createNewProduct: async (parent, { productInput }, context) => {
       // if (context.user) {
         const product = await Product.create(productInput);

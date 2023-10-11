@@ -59,6 +59,7 @@ const typeDefs = gql`
     saveUser(username: String!, email: String!, password: String!): Auth
     createNewProduct(productInput: ProductInput): Product
     createNewInventory(inventoryName: String!): Inventory
+    addInventoryToUser(inventoryId: ID!, userId: ID!): User
     saveProductToInventory(inventoryId: ID!, productId: ID!): Inventory
     removeProductFromInventory(_id: ID!, productId: ID!): Inventory
   }

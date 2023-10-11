@@ -19,11 +19,10 @@ const userSchema = new Schema({
       required: true,
     },
     
-    inventories: {
+    inventories: [{
       type: Schema.Types.ObjectId,
       ref: 'Inventory',
-      
-    },
+    }],
 },
   {
     toJSON: {

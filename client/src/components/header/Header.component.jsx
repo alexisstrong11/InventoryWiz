@@ -26,7 +26,7 @@ const Header = () => {
               {/* if user is logged in show saved inventories and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link as={Link} to='/inventory'>
                     See Your Inventory
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
