@@ -112,6 +112,7 @@ export const ADD_PRODUCT_TO_INVENTORY = gql`
       UPC
       brand
       price
+      quantity
       description
       name
       image
