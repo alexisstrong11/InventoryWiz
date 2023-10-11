@@ -16,6 +16,7 @@ mutation SaveUser($username: String!, $email: String!, $password: String!) {
           image
           link
           category
+          quantity
         }
         priceTotal
         inventoryName
@@ -51,6 +52,7 @@ export const LOGIN_USER = gql`
           image
           link
           category
+          quantity
         }
       }
     }
@@ -71,12 +73,13 @@ export const CREATE_PRODUCT = gql`
     image
     link
     category
+    quantity
   }
 }
 `;
 
 export const CREATE_INVENTORY = gql`
-mutation Mutation($inventoryName: String!, $userId: ID!) {
+mutation CreateNewInventory($inventoryName: String!, $userId: ID!) {
   createNewInventory(inventoryName: $inventoryName, userId: $userId) {
     _id
     username
@@ -97,6 +100,7 @@ mutation Mutation($inventoryName: String!, $userId: ID!) {
         image
         link
         category
+        quantity
       }
     }
   }
@@ -104,31 +108,12 @@ mutation Mutation($inventoryName: String!, $userId: ID!) {
 `;
 
 export const ADD_PRODUCT_TO_INVENTORY = gql`
-  mutation AddProductToInventory($inventoryId: String!, $productId: String!) {
+  mutation AddProductToInventory($inventoryId: ID!, $productId: ID!) {
     addProductToInventory(inventoryId: $inventoryId, productId: $productId) {
     _id
     inventoryName
-    products {
-      UPC
-      brand
-      price
-      quantity
-      description
-      name
-      image
-      link
-      category
-    }
     priceTotal
-  }
-  }
-`;
-
-export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
-  mutation RemoveProductFromInventory($inventoryId: String!, $productId: String!) {
-    removeProductFromInventory(inventoryId: $inventoryId, productId: $productId) {
-    _id
-    inventoryName
+    productCount
     products {
       _id
       UPC
@@ -139,8 +124,31 @@ export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
       image
       link
       category
+      quantity
     }
+  }
+}
+`;
+
+export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
+  mutation RemoveProductFromInventory($inventoryId: ID!, $productId: ID!) {
+    removeProductFromInventory(inventoryId: $inventoryId, productId: $productId) {
+    _id
+    inventoryName
     priceTotal
+    productCount
+    products {
+      _id
+      UPC
+      brand
+      price
+      description
+      name
+      image
+      link
+      category
+      quantity
+    }
   }
-  }
+}
   `;
