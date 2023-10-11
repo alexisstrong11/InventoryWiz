@@ -11,6 +11,7 @@ import {
 import { QUERY_ALL_PRODUCT } from '../util/queries';
 import { useLazyQuery } from '@apollo/client';
 import Product from './productDisplay/Product.component'
+import AddProduct from './AddProduct'
 //import { saveInventory, getInventories } from '../util/localStorage';
 
 
@@ -79,6 +80,7 @@ const SearchProducts = () => {
           </Col>
         </Row>
       </Form>
+      <AddProduct />
     </Container>
 
     </div>
