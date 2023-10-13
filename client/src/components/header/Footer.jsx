@@ -6,25 +6,25 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 // Developers' Github name, url, icon, and color.
 const socials = [
   {
-    name: "GitHub",
+    name: "Ibrahim's GitHub",
     url: "https://github.com/IbrahimAllison",
     icon: faGithub,
     color: "#ffd700",
   },
   {
-    name: "GitHub",
+    name: "Joshua's GitHub",
     url: "https://github.com/stanjosh",
     icon: faGithub,
     color: "#ffd700",
   },
   {
-    name: "GitHub",
+    name: "Evelyn's GitHub",
     url: "https://github.com/Eveykins86",
     icon: faGithub,
     color: "#ffd700",
   },
   {
-    name: "GitHub",
+    name: "Alexis's GitHub",
     url: "https://github.com/alexisstrong11",
     icon: faGithub,
     color: "#ffd700",
