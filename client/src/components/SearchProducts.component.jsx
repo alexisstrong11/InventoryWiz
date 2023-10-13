@@ -59,7 +59,7 @@ const SearchProducts = () => {
     <>
     {console.log(searchedProductData)}
     <div className='text-light bg-dark pt-5'>
-    <Container className='my-5'>
+    <Container>
       <h1>Search for Items!</h1>
       <Form onSubmit={handleFormSubmit}>
         <Row>
@@ -70,7 +70,7 @@ const SearchProducts = () => {
               onChange={(e) => setSearchInput(e.target.value)}
               type='text'
               size='lg'
-              placeholder='Search for a item'
+              placeholder='Search for an item'
             />
           </Col>
           <Col xs={12} md={4}>
