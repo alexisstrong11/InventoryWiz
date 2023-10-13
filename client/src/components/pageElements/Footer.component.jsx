@@ -1,6 +1,6 @@
 // import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faGithub } from "@fortawesome/free-brands-svg-icons";
 // import "../style/Footer.css";
 
 // Developers' Github name, url, icon, and color.
@@ -8,25 +8,25 @@ const socials = [
   {
     name: "Ibrahim's GitHub",
     url: "https://github.com/IbrahimAllison",
-    icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
     name: "Joshua's GitHub",
     url: "https://github.com/stanjosh",
-    icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
     name: "Evelyn's GitHub",
     url: "https://github.com/Eveykins86",
-    icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
     name: "Alexis's GitHub",
     url: "https://github.com/alexisstrong11",
-    icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
 ];
@@ -48,12 +48,17 @@ const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={icon}
                   bounce
                   className="footer-icon-size"
                   style={{ color: color }}
                 />
+                
+                
+                just put in a github logo here i guess -josh*/}
+
+                
               </a>
               <a href={url} target="_blank" rel="noreferrer">
                 <span className="d-inline-block mx-1 name">{name}</span>
