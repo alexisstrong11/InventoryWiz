@@ -1,12 +1,14 @@
-const { Schema, model } = require('mongoose');
+const { model, Schema } = require('mongoose');
+
 
 
 const productSchema = new Schema({
   UPC: {
     type: String,
-    allowNull: true,
   },
-  brand: String,
+  brand: {
+    type: String
+  },
   price: {
     type: Number,
   },
@@ -16,6 +18,10 @@ const productSchema = new Schema({
   name: {
     type: String,
   },
+  quantity: {
+    type: Number,
+    default: 1,
+  },
   image: {
     type: String,
   },
@@ -24,6 +30,9 @@ const productSchema = new Schema({
   },
   category: [String],
 });
+
+
+
 
 const Product = model('Product', productSchema);
 

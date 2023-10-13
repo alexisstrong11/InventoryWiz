@@ -5,12 +5,13 @@ const typeDefs = gql`
     _id: ID
     UPC: String
     brand: String
-    price: Float
+    price: Float!
     description: String
     name: String!
     image: String
     link: String
     category: [String]
+    quantity: Int
   }
 
   input ProductInput {
@@ -25,18 +26,19 @@ const typeDefs = gql`
   }
 
   type User {
-    _id: ID
+    _id: ID!
     username: String!
     email: String!
     password: String!
-    inventories: [Inventory]
+    inventories: [Inventory!]
   }
 
   type Inventory {
-    _id: ID!
-    inventoryName: String!
+    _id: ID
+    inventoryName: String
     priceTotal: Float
-    products: [Product]
+    productCount: Int
+    products: [Product!]
   }
 
   type Auth {
@@ -46,17 +48,23 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    searchAllProduct: [Product]
+    searchProductUPC: [Product]
+    searchProductName: [Product]
+    searchUser(id: ID!): User
+    searchUserByName(username: String!): User
   }
 
   type Mutation {
 
     loginUser(email: String!, password: String!): Auth
-    saveUser(username: String!, email: String!, password: String!): Auth
-    createNewProduct(productInput: ProductInput): Product
-    createNewInventory(inventoryName: String!): Inventory
-    saveInventoryToUser(_id: ID!): User
-    saveProductToInventory(productInput: ProductInput): Inventory
-    removeProductFromInventory(_id: ID!): Inventory
+    addUser(username: String!, email: String!, password: String!): Auth
+    createNewProduct(productInput: ProductInput): User
+    createNewInventory(inventoryName: String!): User
+    addInventoryToUser(inventoryId: ID!, userId: ID!): User
+    removeInventoryFromUser(_id: ID!, inventoryId: ID!): User
+    addProductToInventory(inventoryId: ID!, productId: ID!): Inventory
+    removeProductFromInventory(inventoryId: ID!, productId: ID!, quantity: Int): Inventory
   }
 `;
 

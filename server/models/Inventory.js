@@ -1,44 +1,39 @@
 const { Schema, model } = require('mongoose');
 
-
-
-const { Product } = require('./Product');
+const Product = require('./Product');
 
 const inventorySchema = new Schema({
     inventoryName: {
         type: String,
         required: true,
     },
-    priceTotal: {
-        type: Number,
-        allowNull: false,
-        default: 0,
-    },
-    productList: {
-        type: [Product],
-        allowNull: true
-        }
+    products: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+    }],
+
     },
     {
-        toJSON: {
-            virtuals: true,
-        }
+    toJSON: {
+        virtuals: true,
+    }
 });
 
+inventorySchema.virtual('productCount').get(function () {
+    return this.products.length;
+});
 
-inventorySchema.pre('save', async function (next) {
-    if (!this.isNew && this.isModified('productList')) {
-        this.total = this.products?.reduce((acc, product) => {
-            return acc + product.price;
-        }, 0)
-    } else {
-        this.priceTotal = 0;
-    }
-
-    next();
+inventorySchema.virtual('priceTotal').get(function () {
+    let total = 0;
+    this.products.forEach(product => {
+        total += product.price;
+    });
+    return `${total.toFixed(2)}`;
 });
 
 
 const Inventory = model('Inventory', inventorySchema);
+
+
 
 module.exports = Inventory;

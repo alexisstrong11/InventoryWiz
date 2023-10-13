@@ -1,8 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// import schema from Book.js
-const { Inventory } = require('./Inventory');
 
 const userSchema = new Schema({
     username: {
@@ -21,17 +19,39 @@ const userSchema = new Schema({
       required: true,
     },
     
-    inventoriesList: {
-      type: [Inventory],
-      allowNull: true,
-    }
-  },
+    inventories: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Inventory',
+    }],
+},
   {
     toJSON: {
       virtuals: true,
     },
   }
 );
+
+userSchema.virtual('inventoryCount').get(function () {
+  return this.inventories.length;
+});
+
+userSchema.virtual('productCount').get(function () {
+  let total = 0;
+  this.inventories.forEach(inventory => {
+    total += inventory.products.length;
+  });
+  return total;
+});
+
+userSchema.virtual('priceTotal').get(function () {
+  let total = 0;
+  this.inventories.forEach(inventory => {
+    inventory.products.forEach(product => {
+      total += product.price;
+    });
+  });
+  return `${total.toFixed(2)}`;
+});
 
 // hash user password
 userSchema.pre('save', async function (next) {
