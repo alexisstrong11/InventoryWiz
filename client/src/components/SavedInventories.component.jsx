@@ -3,38 +3,35 @@ import {
   Container,
   Card,
   Button,
-  Row,
-  Col,
   ListGroup
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
-import { ADD_PRODUCT_TO_INVENTORY, REMOVE_PRODUCT_FROM_INVENTORY } from '../util/mutations';
+import { REMOVE_INVENTORY, ADD_PRODUCT_TO_INVENTORY, REMOVE_PRODUCT_FROM_INVENTORY } from '../util/mutations';
 import { QUERY_ME } from '../util/queries';
+import Bar from './inventories/Toolbar.component';
+import InventoryCard from './inventories/InventoryCard.component';
 
-
-import Auth from '../util/auth';
-//import { removeProductId } from '../util/localStorage';
 
 
 const Inventories = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  const [userData, setUserData] = useState({});
+  const [ userData, setUserData ] = useState({});
   const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
   const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_TO_INVENTORY);
-  const [ inventories, setInventories ] = useState([{}]);
+  const [ removeInventory ] = useMutation(REMOVE_INVENTORY);
 
 
   useEffect(() => {
     if (data?.me) {
       setUserData(data.me)
-      setInventories(data.me.inventories)
+ 
     }
   }, [data]);
   
   
   const increaseProduct = async (inventoryId, productId) => {
     try {
-      const inventory = await increaseProductQuantity({
+      await increaseProductQuantity({
         variables: { inventoryId, productId }
       });
       // saveInventory(data.addProductToInventory);
@@ -46,7 +43,7 @@ const Inventories = () => {
   const decreaseProduct = async (inventoryId, productId, quantity) => {
     try {
       quantity = quantity - 1
-      const inventory = await decreaseProductQuantity({
+      await decreaseProductQuantity({
         variables: { inventoryId, productId, quantity }
       });
 
@@ -57,7 +54,16 @@ const Inventories = () => {
   };
 
 
-
+  const handleRemoveInventory = async (inventoryId) => {
+    try {
+      await removeInventory({
+        variables: { inventoryId }
+      });
+      // saveInventory(data.removeProductFromInventory);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   const countAndMergeProducts = (products) => {
@@ -97,37 +103,12 @@ const Inventories = () => {
       ) : (    
         mergedInventories?.map((inventory) => {
           return(
-          <Card bg='dark' text='light' style={{ width: '28rem' }} key={inventory._id}>
-            <Card.Header><h3>{inventory.inventoryName} {`$${inventory.priceTotal.toFixed(2)}`}</h3></Card.Header>
-            
-            <h5>Products:</h5>
-            <ListGroup variant='flush' >
-            {inventory.products?.map((product) => {
-              return(
-              <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
-                <h4>{product.quantity} {product.name}</h4>
-                  <Container fluid='true' >{`$${product.quantity * product.price.toFixed(2)}`}
-                  <Button color='dark' style={{width: '2rem' }} onClick={() => increaseProduct(inventory._id, product._id)}>+</Button>
-                  <Button color='dark' style={{width: '2rem' }} onClick={() => decreaseProduct(inventory._id, product._id, product.quantity)}>-</Button>
-                  
-                  </Container>
-                  
-
-
-              </ListGroup.Item>)
-              
-            })}
-            </ListGroup>
-
-          </Card>
-      
+            <InventoryCard key={inventory._id} inventory={inventory} increaseProduct={increaseProduct} decreaseProduct={decreaseProduct} removeInventory={handleRemoveInventory}/>
           )
-        }
-        )
+        })
       )}
-
+      <Bar />
     </Container>
-
   );
 };
 
