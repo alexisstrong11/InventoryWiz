@@ -59,7 +59,7 @@ const SearchProducts = () => {
     <>
     {console.log(searchedProductData)}
     <div className='text-light bg-dark pt-5'>
-    <Container>
+    <Container className='my-5'>
       <h1>Search for Items!</h1>
       <Form onSubmit={handleFormSubmit}>
         <Row>
