@@ -79,17 +79,46 @@ export const CREATE_PRODUCT = gql`
 `;
 
 export const CREATE_INVENTORY = gql`
-mutation CreateNewInventory($inventoryName: String!, $userId: ID!) {
-  createNewInventory(inventoryName: $inventoryName, userId: $userId) {
+mutation CreateNewInventory($inventoryName: String!) {
+  createNewInventory(inventoryName: $inventoryName) {
     _id
     username
     email
     password
     inventories {
       _id
-      userId
       inventoryName
       priceTotal
+      productCount
+      products {
+        _id
+        UPC
+        brand
+        price
+        description
+        name
+        image
+        link
+        category
+        quantity
+      }
+    }
+  }
+}
+`;
+
+export const REMOVE_INVENTORY = gql`
+mutation removeInventory($inventoryId: ID!) {
+  removeInventory(inventoryId: $inventoryId) {
+    _id
+    username
+    email
+    password
+    inventories {
+      _id
+      inventoryName
+      priceTotal
+      productCount
       products {
         _id
         UPC

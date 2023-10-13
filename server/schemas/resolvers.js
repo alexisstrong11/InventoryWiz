@@ -62,7 +62,7 @@ const resolvers = {
 
 
   Mutation: {
-    addUser: async (parent, { username, email, password }) => {
+    saveUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
 
@@ -97,29 +97,19 @@ const resolvers = {
 
     createNewInventory: async (parent, { inventoryName }, context ) => {
       console.log(inventoryName )
-      // if (context.user) {
-        const inventory = await Inventory.create({ inventoryName });
+      if (context.user) {
+      const inventory = await Inventory.create({ inventoryName });  
+      const user = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { inventories: inventory._id } },
+          { new: true }
+        );
         return inventory
-      // const user = await User.findOneAndUpdate(
-        //   { _id: context.user._id },
-        //   { $addToSet: { inventories: inventory._id } },
-        //   { new: true }
-        // );
-      // throw new AuthenticationError('You need to be logged in!');
+      }
+      throw new AuthenticationError('You need to be logged in!');
 
     },
 
-    addInventoryToUser: async (parent, { inventoryId, userId }, context) => {
-      //if (context.user) {
-      console.log(inventoryId, userId)
-      const user = await User.findByIdAndUpdate(userId, 
-        { $push: { inventories: inventoryId } }, 
-        { new: true });
-      return user
-      // }
-      // throw new AuthenticationError('You need to be logged in!');
-    },
-        
     createNewProduct: async (parent, { productInput }, context) => {
       // if (context.user) {
         const product = await Product.create(productInput);
@@ -127,26 +117,6 @@ const resolvers = {
       // }
       // throw new AuthenticationError('You need to be logged in!');
     },
-
-    // saveInventoryToUser: async (parent, { _id }, context) => {
-    //   if (context.user) {
-    //     return User.findOneAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { inventories: _id } },
-    //       { new: true }
-    //     );
-    //   }
-    //   throw new AuthenticationError('You need to be logged in!');
-    // },
-
-    // Set up mutation so a logged in user can only remove their user and no one else's
-    // removeUser: async (parent, args, context) => {
-    //   if (context.user) {
-    //     return User.findOneAndDelete({ _id: context.user._id });
-    //   }
-    //   throw new AuthenticationError('You need to be logged in!');
-    // },
-    // Make it so a logged in user can only remove a book from their own user
 
     removeInventoryFromUser: async (parent, { inventoryId }, context) => {
       if (context.user) {
@@ -190,8 +160,25 @@ const resolvers = {
       //}
       //throw new AuthenticationError('You need to be logged in!');
     },
+    removeInventory: async (parent, { inventoryId }, context) => {
+      if (context.user) {
+        let user = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: { inventories: { _id: inventoryId } } },
+          { new: true }
+        )
+        .populate({ 
+          path: 'products',
+          model: 'Product',
+        })
+        .exec();
+        console.log(user)
+        return user;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
 
-    removeProductFromInventory: async (parent, { inventoryId, productId, quantity }, context) => {
+    removeProductFromInventory: async (parent, { inventoryId, productId }, context) => {
       //if (context.user) {
         let inventory = await Inventory.findOneAndUpdate(
           { _id: inventoryId, products: productId },
@@ -218,6 +205,10 @@ const resolvers = {
       //throw new AuthenticationError('You need to be logged in!');
     },
   },
+
+
+
+
 };
 
 module.exports = resolvers;
