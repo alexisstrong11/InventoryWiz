@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Product {
-    _id: ID!
+    _id: ID
     UPC: String
     brand: String
     price: Float!
@@ -11,10 +11,11 @@ const typeDefs = gql`
     image: String
     link: String
     category: [String]
+    quantity: Int
   }
 
   input ProductInput {
-    UPC: String!
+    UPC: String
     brand: String
     price: Float!
     description: String
@@ -29,14 +30,15 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
-    inventories: [Inventory]
+    inventories: [Inventory!]
   }
 
   type Inventory {
-    _id: ID!
-    inventoryName: String!
+    _id: ID
+    inventoryName: String
     priceTotal: Float
-    products: [Product]
+    productCount: Int
+    products: [Product!]
   }
 
   type Auth {
@@ -56,12 +58,13 @@ const typeDefs = gql`
   type Mutation {
 
     loginUser(email: String!, password: String!): Auth
-    saveUser(username: String!, email: String!, password: String!): Auth
-    createNewProduct(productInput: ProductInput): Product
-    createNewInventory(inventoryName: String!): Inventory
+    addUser(username: String!, email: String!, password: String!): Auth
+    createNewProduct(productInput: ProductInput): User
+    createNewInventory(inventoryName: String!): User
     addInventoryToUser(inventoryId: ID!, userId: ID!): User
-    saveProductToInventory(inventoryId: ID!, productId: ID!): Inventory
-    removeProductFromInventory(_id: ID!, productId: ID!): Inventory
+    removeInventoryFromUser(_id: ID!, inventoryId: ID!): User
+    addProductToInventory(inventoryId: ID!, productId: ID!): Inventory
+    removeProductFromInventory(inventoryId: ID!, productId: ID!, quantity: Int): Inventory
   }
 `;
 
