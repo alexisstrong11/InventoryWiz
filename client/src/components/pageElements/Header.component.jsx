@@ -3,41 +3,68 @@ import { Outlet, Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm.component';
 import LoginForm from './LoginForm.component';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import Auth from '../../util/auth';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 
 const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
+     return(   
+    
+      <>
+      {[false, 'sm', 'md', 'lg', 'xl', 'xxl'].map((expand) => (
+        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+          <Container fluid>
+            <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                  Offcanvas
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <NavDropdown
+                    title="Dropdown"
+                    id={`offcanvasNavbarDropdown-expand-${expand}`}
+                  >
+                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">
+                      Another action
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action5">
+                      Something else here
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+                <Form className="d-flex">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ))};
 
-  return (
-    <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
-        <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            InventoryWiz
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
-          <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
-            <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                Search For Items
-              </Nav.Link>
-              {/* if user is logged in show saved inventories and logout */}
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link as={Link} to='/inventory'>
-                    See Your Inventory
-                  </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
       {/* set modal data up */}
       <Modal
         size='lg'
@@ -72,7 +99,6 @@ const Header = () => {
       </Modal>
 
     </>
-  );
-};
-
+  )};
 export default Header;
+

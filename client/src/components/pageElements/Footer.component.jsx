@@ -24,7 +24,7 @@ const socials = [
     color: "#ffd700",
   },
   {
-    name: "Alexis's GitHub",
+    name: "Alexis' GitHub",
     url: "https://github.com/alexisstrong11",
     icon: '',//faGithub,
     color: "#ffd700",
