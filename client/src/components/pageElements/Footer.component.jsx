@@ -8,25 +8,25 @@ const socials = [
   {
     name: "Ibrahim's GitHub",
     url: "https://github.com/IbrahimAllison",
-    // icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
     name: "Joshua's GitHub",
     url: "https://github.com/stanjosh",
-    // icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
     name: "Evelyn's GitHub",
     url: "https://github.com/Eveykins86",
-    // icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
   {
-    name: "Alexis's GitHub",
+    name: "Alexis' GitHub",
     url: "https://github.com/alexisstrong11",
-    // icon: faGithub,
+    icon: '',//faGithub,
     color: "#ffd700",
   },
 ];
@@ -53,7 +53,12 @@ const Footer = () => {
                   bounce
                   className="footer-icon-size"
                   style={{ color: color }}
-                /> */}
+                />
+                
+                
+                just put in a github logo here i guess -josh*/}
+
+                
               </a>
               <a href={url} target="_blank" rel="noreferrer">
                 <span className="d-inline-block mx-1 name">{name}</span>
@@ -63,7 +68,9 @@ const Footer = () => {
         </section>
         <section className="form-footer">
           <h5 className="designer-text">Designed by InventoryWiz Team</h5>
+          <p>
             <h6 className="copyright-text">&copy; {new Date().getFullYear()}</h6>
+          </p>
         </section>
       </div>
     </footer>
