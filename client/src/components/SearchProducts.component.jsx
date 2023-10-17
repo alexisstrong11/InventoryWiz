@@ -58,7 +58,7 @@ const SearchProducts = () => {
   return (
     <>
     {console.log(searchedProductData)}
-    <div className='text-light bg-dark pt-5'>
+    <div className='pt-5'>
     <Container>
       <h1>Search for Items!</h1>
       <Form onSubmit={handleFormSubmit}>
@@ -80,8 +80,8 @@ const SearchProducts = () => {
           </Col>
         </Row>
       </Form>
-      <AddProduct />
     </Container>
+    <AddProduct />
 
     </div>
       <Container fluid="true">
