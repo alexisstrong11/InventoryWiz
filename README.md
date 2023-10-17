@@ -1,6 +1,4 @@
 # InventoryWiz
-Shopping list that keeps inventory of pantry items and suggests new items accordingly.
-
  
 ## Table of Contents
 
@@ -15,13 +13,9 @@ Shopping list that keeps inventory of pantry items and suggests new items accord
 
 ## Description
 
-The significance of e-commerce in a nation's economy cannot be over-emphasized. What is e-commerce? E-commerce means Electronic Commerce. "Electronic" refers to an Internet or an Online application while "Commerce" is the art of buying and selling of goods and services.
+This project is titled, InventoryWiz. It focuses on the final consumers or household members. Inventory helps a household or a family member determine the food items they have in their pantry and know which food items they need to buy on their next store visit thereby assisting them to effectively and efficiently manage their supplies and food items.
 
-A typical commercial activity involves the production of goods at a factory or rendering of services by a service provider. Physical products or goods like household items (food stuffs, electronics, furniture, clothes, bags, etc.), cars, inventories, or raw materials, etc. are produced en masse or in large quantities by the manufacturers. These goods are transferred to the wholesalers, distributors, or agents who break the bulk and sell to the retailers or store owners. The retailers finally sell to the final consumers or various households in smaller or micro quantities. An exception to the supply chain is when the manufacturer skips the wholesalers and sells directly to the retailers or stores. Sometimes, the wholesalers sell directly to the household members or their club members like Costco and Sam's Club. 
-
-According to Macmillan dictionary, Inventory is defined as "all the goods available for sale in a store at a particular time. It is also defined as a list giving details of all the things in a place". This project is titled, InventoryWiz. It focuses on the final consumers or household members. It is about "a list giving details of all the things in a place (pantry)". Inventory helps a household or a family member determine the food items they have in their pantry and know which food items they need to buy on their next store visit thereby assisting them to effectively and efficiently manage their supplies and food items.
-
-InventoryWiz is an e-commerce MERN (MongoDB, Express.js, React.js, and Node.js) application that involves the creation of a shopping list that keeps an inventory of pantry items and suggests new items accordingly.
+InventoryWiz is a MERN (MongoDB, Express.js, React.js, and Node.js) application that involves the creation of a shopping list that keeps an inventory of pantry items.
 
 
 ## Motivation for the Project
@@ -30,8 +24,7 @@ The project team members are well motivated to create an app that takes inventor
 
 ## What Problem Does It Solve?
 
-The team anticipates that the application will save users time and energy of writing a shopping list on a piece of paper. The traditional note apps on our phones could perform some simple tasks. However, note apps have limited features when compared with the InventoryWiz app. The InventoryWiz app provides more cool features and surpasses the note apps in all aspects of comparison. InventoryWiz provides real-time updates to the shopping list, and it suggests new items that could be added to the shopping list.
-The InventoryWiz will also provide users with a top-notch User Interface and User Experience.
+The team anticipates that the application will save users time and energy of writing a shopping list on a piece of paper. The InventoryWiz app provides real-time updates to the shopping list. It also provide users with a top-notch User Interface and User Experience.
 
 
 
