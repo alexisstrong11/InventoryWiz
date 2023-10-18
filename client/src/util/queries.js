@@ -21,7 +21,7 @@ query Me {
         image
         link
         category
-        quantity
+        
       }
     }
   }
@@ -42,7 +42,7 @@ query Inventory($inventoryId: ID!) {
       image
       link
       category
-      quantity
+      
     }
     inventoryName
     _id
@@ -62,7 +62,7 @@ query searchAllProduct {
     image
     link
     category
-    quantity
+    
   }
 }
 `;
@@ -79,7 +79,7 @@ query ProductUPC($UPC: String!) {
     image
     link
     category
-    quantity
+    
   }
 }
 `;
@@ -96,7 +96,7 @@ query ProductName($name: String!) {
     image
     link
     category
-    quantity
+    
   }
 }
 `;
