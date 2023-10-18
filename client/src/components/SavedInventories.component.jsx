@@ -86,8 +86,6 @@ const Inventories = () => {
     };
   });
 
-  console.log(mergedInventories)
-
 
   
   return (
