@@ -4,12 +4,13 @@ import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm.component';
 import LoginForm from './LoginForm.component';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import SavedInventories from '../SavedInventories.component'
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import AddProduct from '../AddProduct';
+
 
 
 const Header = () => {
@@ -35,24 +36,9 @@ const Header = () => {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
                   <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-                  <NavDropdown
-                    title="Add New Products"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                  <AddProduct/>
-                  </NavDropdown>
                 </Nav>
-                <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Button variant="outline-success">Search</Button>
-                </Form>
+                <SavedInventories />  
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

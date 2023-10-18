@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { ADD_PRODUCT_TO_INVENTORY } from '../util/mutations'; 
 
-function AddProduct() {
+function AddProduct({inventoryId}) {
   const [upc, setUpc] = useState('');
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
@@ -13,6 +13,7 @@ function AddProduct() {
   const [quantity, setQuantity] = useState(''); // New state for Quantity
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+
 
   // Use the useMutation hook from Apollo Client to execute the mutation
   const [saveProduct] = useMutation(ADD_PRODUCT_TO_INVENTORY);
@@ -24,18 +25,22 @@ function AddProduct() {
       // Call the saveProduct mutation and pass the form data
       const { data } = await saveProduct({
         variables: {
-          upc,
-          brand,
-          category,
-          description,
-          name,
-          price: parseFloat(price),
-          quantity: parseInt(quantity), // Convert quantity to an integer
-        },
+          inventoryId : inventoryId,
+          productInput: { 
+            UPC: upc,
+            brand : brand,
+            category : category,
+            description : description,
+            name : name,
+            price: parseFloat(price),
+            //quantity: parseInt(quantity), // Convert quantity to an integer
+        }
+      },
       });
 
       if (data) {
         // Product saved successfully
+        s
         setShowSuccessMessage(true);
         // Reset the form
         setUpc('');
