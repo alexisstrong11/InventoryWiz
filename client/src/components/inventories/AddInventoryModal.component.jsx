@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { CREATE_INVENTORY } from '../../util/mutations';
-import Auth from '../../util/auth';
+
 
 
 const AddInventoryForm = () => {
