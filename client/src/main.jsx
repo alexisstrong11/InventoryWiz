@@ -12,6 +12,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 import { SavedInventories, SearchProducts } from './components'
+import LandingPage from './components/LandingPage.component.jsx';
 
 const host = 'http://localhost:3001/graphql'
 
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <SearchProducts />
+        element: <LandingPage/>
       },
       {
         path: "/inventory",
