@@ -213,7 +213,7 @@ const resolvers = {
         { _id: inventoryId, products: productId },
         { 
         
-          $push: { products: 1 },
+          $push: { products: productId },
           
         },
 

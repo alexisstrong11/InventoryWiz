@@ -159,6 +159,29 @@ export const ADD_PRODUCT_TO_INVENTORY = gql`
 }
 `;
 
+export const ADD_PRODUCT_QUANTITY = gql`
+  mutation AddProductQuantity($inventoryId: ID!, $productId: ID!) {
+    addProductQuantity(inventoryId: $inventoryId, productId: $productId) {
+    _id
+    inventoryName
+    priceTotal
+    productCount
+    products {
+      _id
+      UPC
+      brand
+      price
+      description
+      name
+      image
+      link
+      category
+      
+    }
+  }
+}
+`;
+
 export const REMOVE_PRODUCT_FROM_INVENTORY = gql`
   mutation RemoveProductFromInventory($inventoryId: ID!, $productId: ID!) {
     removeProductFromInventory(inventoryId: $inventoryId, productId: $productId) {

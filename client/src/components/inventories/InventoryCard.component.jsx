@@ -3,12 +3,41 @@ import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap
 
 import AddProduct from '../AddProduct'
 import { useMutation } from '@apollo/client';
-import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_TO_INVENTORY } from '../../util/mutations';
+import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY } from '../../util/mutations';
 
 
-const InventoryCard = ({ inventory }) => {
+
+const InventoryCard = ({inventory}) => {
   const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
-  const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_TO_INVENTORY);
+  const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_QUANTITY);
+  const [ inventoryData, setInventoryData ] = useState({...inventory});
+  const [ productData, setProductData ] = useState([...inventory.products]);
+
+
+  useEffect(() => {
+  if ({inventory}) {
+      
+      setInventoryData(inventory);
+      setProductData(inventory.products);
+      console.log(productData)
+    }
+  }
+  , [inventory, productData]);
+
+  const reduceProductToQuantity = (products) => {
+    const productsToQuantize = products.map((product) => {
+      return  { 
+        quantity : products.reduce((acc, product2) => products.find((v) => v._id === product2._id) ? acc + 1 : acc, 0),
+        ...product
+      }
+    })
+    let quantProducts = productsToQuantize.reduce((acc, product) =>
+    acc.find((v) => v._id === product._id) 
+    ? acc 
+    : [...acc, product], [])  
+    return quantProducts
+  }
+
 
   const increaseProduct = async (inventoryId, productId) => {
     try {
@@ -36,11 +65,11 @@ const InventoryCard = ({ inventory }) => {
 
 return(
     <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
-    <Card.Header><h3>{inventory.inventoryName} {`$${inventory.priceTotal.toFixed(2)}`}</h3></Card.Header>
+    <Card.Header><h3>{inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}</h3></Card.Header>
     
     <h5>Products:</h5>
     <ListGroup variant='flush' >
-    {inventory.products?.map((product) => {
+    {reduceProductToQuantity(productData).map((product) => {
         return(
         <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
         <h4>{product.quantity} {product.name}</h4>
