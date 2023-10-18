@@ -141,12 +141,14 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');  
     },
 
-    addProductToInventory: async (parent, { inventoryId, productId }, context) => {
+    addProductToInventory: async (parent, { inventoryId, productInput }, context) => {
       //if (context.user) {
+        let product = await Product.create(productInput)
+
         let inventory = await Inventory.findByIdAndUpdate(
           { _id: inventoryId },
           
-          { $push: { products: productId } },
+          { $push: { products: product._id } },
           { new: true,
             upsert: true,
            }

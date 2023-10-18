@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Container,
-  Card,
-  Button,
-  ListGroup
+
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { REMOVE_INVENTORY, ADD_PRODUCT_TO_INVENTORY, REMOVE_PRODUCT_FROM_INVENTORY } from '../util/mutations';

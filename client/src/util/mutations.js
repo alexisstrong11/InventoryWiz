@@ -62,7 +62,7 @@ export const LOGIN_USER = gql`
 `;
 
 export const CREATE_PRODUCT = gql`
-  mutation SaveBook($input: BookInput) {
+  mutation SaveBook($input: productInput) {
     createNewProduct(productInput: $productInput) {
     _id
     UPC
@@ -137,8 +137,8 @@ mutation removeInventory($inventoryId: ID!) {
 `;
 
 export const ADD_PRODUCT_TO_INVENTORY = gql`
-  mutation AddProductToInventory($inventoryId: ID!, $productId: ID!) {
-    addProductToInventory(inventoryId: $inventoryId, productId: $productId) {
+  mutation AddProductToInventory($inventoryId: ID!, $productInput: ProductInput!) {
+    addProductToInventory(inventoryId: $inventoryId, productInput: $productInput) {
     _id
     inventoryName
     priceTotal
