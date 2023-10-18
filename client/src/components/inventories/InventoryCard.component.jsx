@@ -27,16 +27,20 @@ const InventoryCard = ({inventory}) => {
   const reduceProductToQuantity = (products) => {
     const productsToQuantize = products.map((product) => {
       return  { 
-        quantity : products.reduce((acc, product2) => products.find((v) => v._id === product2._id) ? acc + 1 : acc, 0),
+        quantity : products.filter((p) => p._id === product._id).length,
         ...product
       }
     })
-    let quantProducts = productsToQuantize.reduce((acc, product) =>
-    acc.find((v) => v._id === product._id) 
-    ? acc 
-    : [...acc, product], [])  
-    return quantProducts
+    return quantizeProducts(productsToQuantize)
   }
+
+  const quantizeProducts = (products) => {
+    let quantProducts = products.reduce((acc, product) =>
+    acc.find((v) => v._id === product._id) 
+      ? acc 
+      : [...acc, product], [])  
+  return quantProducts
+  };
 
 
   const increaseProduct = async (inventoryId, productId) => {
