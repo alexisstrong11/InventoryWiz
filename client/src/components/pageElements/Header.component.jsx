@@ -1,15 +1,9 @@
 import { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm.component';
 import LoginForm from './LoginForm.component';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import SavedInventories from '../SavedInventories.component'
-
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 
@@ -23,6 +17,9 @@ const Header = () => {
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
             <Navbar.Brand href="#">InventoryWiz</Navbar.Brand>
+            <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                </Nav>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -35,9 +32,7 @@ const Header = () => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-                </Nav>
+
                 <SavedInventories />  
               </Offcanvas.Body>
             </Navbar.Offcanvas>
