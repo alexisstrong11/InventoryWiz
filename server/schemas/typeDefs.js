@@ -11,7 +11,6 @@ const typeDefs = gql`
     image: String
     link: String
     category: [String]
-    quantity: Int
   }
 
   input ProductInput {
@@ -65,6 +64,7 @@ const typeDefs = gql`
     addInventoryToUser(inventoryId: ID!, userId: ID!): User
     removeInventoryFromUser(_id: ID!, inventoryId: ID!): User
     addProductToInventory(inventoryId: ID!, productInput: ProductInput!): Inventory
+    addProductQuantity(inventoryId: ID!, productId: ID!): Inventory
     removeProductFromInventory(inventoryId: ID!, productId: ID!, quantity: Int): Inventory
     
   }

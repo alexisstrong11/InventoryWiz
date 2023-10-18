@@ -1,8 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+
 import AddProduct from '../AddProduct'
-const InventoryCard = ({ inventory, increaseProduct, decreaseProduct }) => {
+import { useMutation } from '@apollo/client';
+import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_TO_INVENTORY } from '../../util/mutations';
+
+
+const InventoryCard = ({ inventory }) => {
+  const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
+  const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_TO_INVENTORY);
+
+  const increaseProduct = async (inventoryId, productId) => {
+    try {
+      await increaseProductQuantity({
+        variables: { inventoryId, productId }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const decreaseProduct = async (inventoryId, productId, quantity) => {
+    try {
+      quantity = quantity - 1
+      await decreaseProductQuantity({
+        variables: { inventoryId, productId, quantity }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
 
 
@@ -32,23 +60,6 @@ return(
         </NavDropdown>
     </Card>
 )
-        };
-
-        InventoryCard.propTypes = {
-            inventory: PropTypes.shape({
-              _id: PropTypes.string.isRequired,
-              inventoryName: PropTypes.string.isRequired,
-              priceTotal: PropTypes.number.isRequired,
-              products: PropTypes.arrayOf(PropTypes.shape({
-                _id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
-                price: PropTypes.number.isRequired,
-                quantity: PropTypes.number.isRequired,
-              })).isRequired,
-            }).isRequired,
-            increaseProduct: PropTypes.func.isRequired,
-            decreaseProduct: PropTypes.func.isRequired,
-            removeInventory: PropTypes.func.isRequired,
-          };
+  };
 
 export default InventoryCard;
