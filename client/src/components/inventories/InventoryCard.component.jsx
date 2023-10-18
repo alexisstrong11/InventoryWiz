@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, Button, Container } from 'react-bootstrap';
+import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import AddProduct from '../AddProduct'
+const InventoryCard = ({ inventory, increaseProduct, decreaseProduct }) => {
 
-const InventoryCard = ({ inventory, increaseProduct, decreaseProduct, removeInventory }) => {
-    const [ confirmDelete, setConfirmDelete ] = useState(false);
-    const X = confirmDelete ? 'Are you sure?' : 'X';
 
 
 return(
-    <Card bg='dark' text='light' style={{ width: '28rem' }} key={inventory._id}>
-        <Button variant='danger' onClick={() => removeInventory(inventory._id)}>{X}</Button>
+    <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
     <Card.Header><h3>{inventory.inventoryName} {`$${inventory.priceTotal.toFixed(2)}`}</h3></Card.Header>
     
     <h5>Products:</h5>
@@ -22,9 +20,16 @@ return(
             <Button color='dark' style={{width: '2rem' }} onClick={() => increaseProduct(inventory._id, product._id)}>+</Button>
             <Button color='dark' style={{width: '2rem' }} onClick={() => decreaseProduct(inventory._id, product._id, product.quantity)}>-</Button>
             </Container>
+
         </ListGroup.Item>)
     })}
     </ListGroup>
+    <NavDropdown
+        title="Add New Products"
+        id={`offcanvasNavbarDropdown-expand-${false}`}
+        >
+        <AddProduct inventoryId={inventory._id}/>
+        </NavDropdown>
     </Card>
 )
         };

@@ -64,8 +64,9 @@ const typeDefs = gql`
     removeInventory(inventoryId: ID!): User
     addInventoryToUser(inventoryId: ID!, userId: ID!): User
     removeInventoryFromUser(_id: ID!, inventoryId: ID!): User
-    addProductToInventory(inventoryId: ID!, productId: ID!): Inventory
+    addProductToInventory(inventoryId: ID!, productInput: ProductInput!): Inventory
     removeProductFromInventory(inventoryId: ID!, productId: ID!, quantity: Int): Inventory
+    
   }
 `;
 

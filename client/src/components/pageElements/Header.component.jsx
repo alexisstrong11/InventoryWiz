@@ -3,41 +3,48 @@ import { Outlet, Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm.component';
 import LoginForm from './LoginForm.component';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import SavedInventories from '../SavedInventories.component'
 
-import Auth from '../../util/auth';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+
 
 const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
+     return(   
+    
+      <>
+      {[false].map((expand) => (
+        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+          <Container fluid>
+            <Navbar.Brand href="#">InventoryWiz</Navbar.Brand>
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                InventoryWiz
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                </Nav>
+                <SavedInventories />  
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ))};
 
-  return (
-    <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
-        <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            InventoryWiz
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
-          <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
-            <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                Search For Items
-              </Nav.Link>
-              {/* if user is logged in show saved inventories and logout */}
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link as={Link} to='/inventory'>
-                    See Your Inventory
-                  </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
       {/* set modal data up */}
       <Modal
         size='lg'
@@ -72,7 +79,6 @@ const Header = () => {
       </Modal>
 
     </>
-  );
-};
-
+  )};
 export default Header;
+
