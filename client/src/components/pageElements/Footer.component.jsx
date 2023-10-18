@@ -68,9 +68,9 @@ const Footer = () => {
         </section>
         <section className="form-footer">
           <h5 className="designer-text">Designed by InventoryWiz Team</h5>
-          <p>
+          
             <h6 className="copyright-text">&copy; {new Date().getFullYear()}</h6>
-          </p>
+          
         </section>
       </div>
     </footer>
