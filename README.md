@@ -30,6 +30,7 @@ The team anticipates that the application will save users time and energy of wri
 
 ## Link to the Deployed Application
 
+Here is the link to the Deployed Application: https://inventorywiz2-4996ab469848.herokuapp.com/
 
 
 **screenshot of the deployed application:** 
@@ -66,9 +67,11 @@ The following technologies were used for the application:
 ## Credits and References
 
 - Instructional team and existing class resources.
+- Background image credit: https://www.cleaneatingkitchen.com/clean-eating-food-list/
+- How to configure Vite to allow JSX syntax in JS files?: https://stackoverflow.com/questions/74620427/how-to-configure-vite-to-allow-jsx-syntax-in-js-files
+Stack 
 
 
-  
 ## License
 
 ![License](https://img.shields.io/badge/License-MIT-9cf.svg)
