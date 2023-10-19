@@ -1,18 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+
 import AddProduct from '../AddProduct'
-const InventoryCard = ({ inventory, increaseProduct, decreaseProduct }) => {
+import { useMutation } from '@apollo/client';
+import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY } from '../../util/mutations';
+
+
+
+const InventoryCard = ({inventory}) => {
+  const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
+  const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_QUANTITY);
+  const [ inventoryData, setInventoryData ] = useState({...inventory});
+  const [ productData, setProductData ] = useState([...inventory.products]);
+
+
+  useEffect(() => {
+  if ({inventory}) {
+      
+      setInventoryData(inventory);
+      setProductData(inventory.products);
+      console.log(productData)
+    }
+  }
+  , [inventory, productData]);
+
+  const reduceProductToQuantity = (products) => {
+    const productsToQuantize = products.map((product) => {
+      return  { 
+        quantity : products.filter((p) => p._id === product._id).length,
+        ...product
+      }
+    })
+    return quantizeProducts(productsToQuantize)
+  }
+
+  const quantizeProducts = (products) => {
+    let quantProducts = products.reduce((acc, product) =>
+    acc.find((v) => v._id === product._id) 
+      ? acc 
+      : [...acc, product], [])  
+  return quantProducts
+  };
+
+
+  const increaseProduct = async (inventoryId, productId) => {
+    try {
+      await increaseProductQuantity({
+        variables: { inventoryId, productId }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const decreaseProduct = async (inventoryId, productId, quantity) => {
+    try {
+      quantity = quantity - 1
+      await decreaseProductQuantity({
+        variables: { inventoryId, productId, quantity }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
 
 
 return(
     <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
-    <Card.Header><h3>{inventory.inventoryName} {`$${inventory.priceTotal.toFixed(2)}`}</h3></Card.Header>
+    <Card.Header><h3>{inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}</h3></Card.Header>
     
     <h5>Products:</h5>
     <ListGroup variant='flush' >
-    {inventory.products?.map((product) => {
+    {reduceProductToQuantity(productData).map((product) => {
         return(
         <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
         <h4>{product.quantity} {product.name}</h4>
@@ -32,23 +93,6 @@ return(
         </NavDropdown>
     </Card>
 )
-        };
-
-        InventoryCard.propTypes = {
-            inventory: PropTypes.shape({
-              _id: PropTypes.string.isRequired,
-              inventoryName: PropTypes.string.isRequired,
-              priceTotal: PropTypes.number.isRequired,
-              products: PropTypes.arrayOf(PropTypes.shape({
-                _id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
-                price: PropTypes.number.isRequired,
-                quantity: PropTypes.number.isRequired,
-              })).isRequired,
-            }).isRequired,
-            increaseProduct: PropTypes.func.isRequired,
-            decreaseProduct: PropTypes.func.isRequired,
-            removeInventory: PropTypes.func.isRequired,
-          };
+  };
 
 export default InventoryCard;
