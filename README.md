@@ -39,6 +39,9 @@ Here is the link to the Deployed Application: https://inventorywiz2-4996ab469848
 
 ![Alt text](<Screenshot 2023-10-18 at 7.15.15 PM.png>)
 
+<img width="950" alt="Screenshot" src="https://github.com/alexisstrong11/InventoryWiz/assets/116689797/40d41604-ab30-468e-bdc9-c331f1ec33cd">
+
+
 
 ## Installation and Usage
 
@@ -47,7 +50,8 @@ Below is an high level overview on how to execute and use this application.
 Steps:
 1. Clone the GitHub repository and run the necessary dependencies
 2. To use the Website, click on the deployed application link from the README.md file 	
-3. 
+3. Signup with your username, email, and password.
+4. Click on the 3 lines at the top right to add inventory and product.
        	
 ## Technologies Used
 The following technologies were used for the application:
