@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
 
-import AddProduct from '../AddProduct'
+import AddProduct from './AddProduct.component';
 import { useMutation } from '@apollo/client';
 import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY } from '../../util/mutations';
 
@@ -22,7 +22,7 @@ const InventoryCard = ({inventory}) => {
       console.log(productData)
     }
   }
-  , [inventory, productData]);
+  , [inventory, productData, inventoryData]);
 
   const reduceProductToQuantity = (products) => {
     const productsToQuantize = products.map((product) => {
@@ -64,7 +64,9 @@ const InventoryCard = ({inventory}) => {
     }
   };
 
-
+  function formatMoney(number) {
+    return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
 
 
 return(
@@ -77,7 +79,7 @@ return(
         return(
         <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
         <h4>{product.quantity} {product.name}</h4>
-            <Container fluid='true' >{`$${product.quantity * product.price.toFixed(2)}`}
+            <Container fluid='true' >{`${formatMoney(product.quantity * product.price)}`}
             <Button color='dark' style={{width: '2rem' }} onClick={() => increaseProduct(inventory._id, product._id)}>+</Button>
             <Button color='dark' style={{width: '2rem' }} onClick={() => decreaseProduct(inventory._id, product._id, product.quantity)}>-</Button>
             </Container>

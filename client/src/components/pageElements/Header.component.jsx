@@ -1,18 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm.component';
 import LoginForm from './LoginForm.component';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import SavedInventories from '../SavedInventories.component'
-
+import SavedInventories from '../inventories/SavedInventories.component'
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from '../../util/queries';
 
 
 const Header = () => {
+  const { loading, data } = useQuery(QUERY_ME);
+  const [userData, setUserData] = useState({});
   // set modal display state
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => { 
+    if (data?.me) {
+       setUserData(data?.me)
+    }
+  }  , [userData, data, loading])
+
      return(   
     
       <>
+      
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
@@ -32,8 +43,10 @@ const Header = () => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-
-                <SavedInventories />  
+                {loading ? (
+                 <h2> Loading... </h2>) : (
+                  <SavedInventories userData={userData}/>
+                 )}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

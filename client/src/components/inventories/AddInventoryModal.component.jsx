@@ -1,16 +1,25 @@
 // see SignupForm.js for comments
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { CREATE_INVENTORY } from '../../util/mutations';
 
 
 
-const AddInventoryForm = () => {
+const AddInventoryForm = ({handleModalClose, inventoryData}) => {
   const [userFormData, setUserFormData] = useState({ inventoryName: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [createInventory, { error }] = useMutation(CREATE_INVENTORY);
+
+
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error, showAlert, inventoryData]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -39,7 +48,7 @@ const AddInventoryForm = () => {
     setUserFormData({
         inventoryName: '',
     });
-    location.reload();
+    handleModalClose();
   };
 
   return (
