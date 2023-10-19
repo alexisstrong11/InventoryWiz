@@ -10,7 +10,6 @@ const Bar = () => {
         <>
         <ButtonToolbar className="justify-content-between">
             <Button variant="primary" onClick={() => setShowAddInventoryModal(true)}>Add new inventory</Button>
-            <Button variant="secondary">Button 2</Button>
         </ButtonToolbar>
         <Modal
         size='lg'
