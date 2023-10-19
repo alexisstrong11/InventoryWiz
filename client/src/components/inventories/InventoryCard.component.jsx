@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
-
-import AddProduct from '../AddProduct'
+import AddProduct from '../AddProduct';
 import { useMutation } from '@apollo/client';
-import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY } from '../../util/mutations';
+import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY, REMOVE_INVENTORY } from '../../util/mutations';
 
-
-
-const InventoryCard = ({inventory}) => {
+const InventoryCard = ({ inventory, onRemoveInventory }) => {
   const [ decreaseProductQuantity ] = useMutation(REMOVE_PRODUCT_FROM_INVENTORY);
   const [ increaseProductQuantity ] = useMutation(ADD_PRODUCT_QUANTITY);
   const [ inventoryData, setInventoryData ] = useState({...inventory});
   const [ productData, setProductData ] = useState([...inventory.products]);
+  const [ removeInventory ] = useMutation(REMOVE_INVENTORY);
 
 
   useEffect(() => {
-  if ({inventory}) {
-      
+    if (inventory) {
       setInventoryData(inventory);
       setProductData(inventory.products);
-      console.log(productData)
+      console.log(productData);
     }
-  }
-  , [inventory, productData]);
+  }, [inventory, productData]);
 
   const reduceProductToQuantity = (products) => {
     const productsToQuantize = products.map((product) => {
@@ -48,6 +44,7 @@ const InventoryCard = ({inventory}) => {
       await increaseProductQuantity({
         variables: { inventoryId, productId }
       });
+      console.log(inventoryId)
     } catch (err) {
       console.error(err);
     }
@@ -64,12 +61,31 @@ const InventoryCard = ({inventory}) => {
     }
   };
 
+  const handleRemoveInventory = async (inventoryId) => {
+    try {
+      await removeInventory({
+        variables: { inventoryId }
+      });
+      
+      // Call the onRemoveInventory function if it is passed as a prop
+      if (onRemoveInventory) {
+        onRemoveInventory(inventoryId);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-
-
-return(
+  return (
     <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
-    <Card.Header><h3>{inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}</h3></Card.Header>
+      <Card.Header>
+        <h3>
+          {inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}
+          <Button variant="danger" onClick={handleRemoveInventory}>
+            Remove
+          </Button>
+        </h3>
+      </Card.Header>
     
     <h5>Products:</h5>
     <ListGroup variant='flush' >

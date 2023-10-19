@@ -26,6 +26,7 @@ const AddInventoryForm = () => {
       event.preventDefault();
       event.stopPropagation();
     }
+    
 
     try {
       const user = await createInventory({
