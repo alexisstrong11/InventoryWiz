@@ -3,8 +3,8 @@ body {
     margin: 0;
     padding: 0;
     background-image: url("background.png");
-    background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
 }
 header {
     background-color: #333;
@@ -44,4 +44,10 @@ footer {
 
 h1 {
     text-align: center;
+    margin: 20px;
+    color: darkgreen;
+}
+h3 {
+    margin: 20px;
+    color: rgb(46, 75, 18);
 }

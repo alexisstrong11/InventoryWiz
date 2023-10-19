@@ -35,6 +35,7 @@ const AddInventoryForm = ({handleModalClose, inventoryData}) => {
       event.preventDefault();
       event.stopPropagation();
     }
+    
 
     try {
       const user = await createInventory({
