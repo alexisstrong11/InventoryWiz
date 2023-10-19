@@ -35,7 +35,9 @@ Here is the link to the Deployed Application: https://inventorywiz2-4996ab469848
 
 **screenshot of the deployed application:** 
 
+![Alt text](<Screenshot 2023-10-18 at 7.16.18 PM.png>)
 
+![Alt text](<Screenshot 2023-10-18 at 7.15.15 PM.png>)
 
 
 ## Installation and Usage
