@@ -206,11 +206,34 @@ const resolvers = {
       //}
       //throw new AuthenticationError('You need to be logged in!');
     },
+
+  addProductQuantity: async (parent, { inventoryId, productId }, context) => {
+    //if (context.user) {
+      let inventory = await Inventory.findOneAndUpdate(
+        { _id: inventoryId, products: productId },
+        { 
+        
+          $push: { products: productId },
+          
+        },
+
+        {   
+          new: true,
+          multi: false,
+          upsert: true,
+         }
+      )
+      .populate({ 
+        path: 'products',
+        model: 'Product',
+      })
+      .exec();
+      console.log(inventory)
+      return inventory
+    //}
+    //throw new AuthenticationError('You need to be logged in!');
   },
-
-
-
-
+}
 };
 
 module.exports = resolvers;

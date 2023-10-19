@@ -5,7 +5,7 @@ import SignUpForm from './pageElements/SignupForm.component';
 const LandingPage = () => {
     return (
       <>
-            <div class = "landingPageBox">
+            <div className="landingPageBox">
                 <h1>Welcome to InventoryWiz!</h1>
 
                 <h3>Experience the power of InventoryWiz: </h3>
