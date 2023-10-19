@@ -90,9 +90,7 @@ return(
       <Card.Header>
         <h3>
           {inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}
-          <Button variant="danger" onClick={handleRemoveInventory}>
-            Remove
-          </Button>
+
         </h3>
       </Card.Header>
     
