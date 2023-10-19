@@ -1,5 +1,5 @@
-import SavedInventories from './SavedInventories.component'
-import SearchProducts from './SearchProducts.component'
+import SavedInventories from './inventories/SavedInventories.component'
 
 
-export { SavedInventories, SearchProducts }
+
+export { SavedInventories }
