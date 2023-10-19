@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
-import AddProduct from '../AddProduct';
+import AddProduct from './AddProduct.component';
 
 import { useMutation } from '@apollo/client';
 import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY, REMOVE_INVENTORY } from '../../util/mutations';
@@ -79,13 +79,13 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
     }
   };
 
-  return (
   function formatMoney(number) {
     return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   }
 
 
 return(
+
     <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
       <Card.Header>
         <h3>
