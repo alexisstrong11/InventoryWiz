@@ -19,7 +19,6 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
       setProductData(inventory.products);
       console.log(productData);
     }
-    
   }, [inventory, productData]);
 
   const reduceProductToQuantity = (products) => {
@@ -90,9 +89,7 @@ return(
       <Card.Header>
         <h3>
           {inventoryData.inventoryName} {`$${inventoryData?.priceTotal?.toFixed(2)}`}
-          <Button variant="danger" onClick={handleRemoveInventory}>
-            Remove
-          </Button>
+
         </h3>
       </Card.Header>
     
