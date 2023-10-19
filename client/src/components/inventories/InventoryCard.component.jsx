@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, Button, Container, NavDropdown } from 'react-bootstrap';
 import AddProduct from '../AddProduct';
+
 import { useMutation } from '@apollo/client';
 import { REMOVE_PRODUCT_FROM_INVENTORY, ADD_PRODUCT_QUANTITY, REMOVE_INVENTORY } from '../../util/mutations';
 
@@ -18,6 +19,7 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
       setProductData(inventory.products);
       console.log(productData);
     }
+    
   }, [inventory, productData]);
 
   const reduceProductToQuantity = (products) => {
@@ -61,6 +63,7 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
     }
   };
 
+
   const handleRemoveInventory = async (inventoryId) => {
     try {
       await removeInventory({
@@ -77,6 +80,12 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
   };
 
   return (
+  function formatMoney(number) {
+    return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
+
+
+return(
     <Card bg='dark' text='light' className='w-100 my-5' key={inventory._id}>
       <Card.Header>
         <h3>
@@ -93,7 +102,7 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
         return(
         <ListGroup.Item key={product._id + product.quantity } style={{ display: 'flex', justifyContent: 'space-between'}}>
         <h4>{product.quantity} {product.name}</h4>
-            <Container fluid='true' >{`$${product.quantity * product.price.toFixed(2)}`}
+            <Container fluid='true' >{`${formatMoney(product.quantity * product.price)}`}
             <Button color='dark' style={{width: '2rem' }} onClick={() => increaseProduct(inventory._id, product._id)}>+</Button>
             <Button color='dark' style={{width: '2rem' }} onClick={() => decreaseProduct(inventory._id, product._id, product.quantity)}>-</Button>
             </Container>

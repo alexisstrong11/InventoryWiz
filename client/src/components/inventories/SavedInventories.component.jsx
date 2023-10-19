@@ -4,36 +4,25 @@ import {
 
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
-import { REMOVE_INVENTORY } from '../util/mutations';
-import { QUERY_ME } from '../util/queries';
-import Bar from './inventories/Toolbar.component';
-import InventoryCard from './inventories/InventoryCard.component';
+import { REMOVE_INVENTORY } from '../../util/mutations';
+
+import Bar from './Toolbar.component';
+import InventoryCard from './InventoryCard.component';
 
 
 
-const Inventories = () => {
-  const { loading, data } = useQuery(QUERY_ME);
-  const [ userData, setUserData ] = useState({});
+const Inventories = ({userData}) => {
+
   const [ removeInventory ] = useMutation(REMOVE_INVENTORY);
-  const [ inventoriesData, setInventoriesData ] = useState([]);
+  const [ inventoriesData, setInventoriesData ] = useState(userData?.inventories);
 
   useEffect(() => {
-
-    if (data?.me) {
-      setUserData(data?.me);
-      setInventoriesData(data?.me.inventories);
-
-
-      
-
-
-
-
-
+    console.log(userData)
+    if (userData) {
+      setInventoriesData(userData?.inventories);
+      console.log(inventoriesData)
     }
-    
-    
-  }, [data]);
+  }, [inventoriesData, userData]);
 
 
   
@@ -53,9 +42,7 @@ const Inventories = () => {
   
   return (
     <Container>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (userData.inventories?.length === 0) ? (
+      { (inventoriesData?.length === 0) ? (
         <div>
           <h2 className="text-center">You have no saved Inventories!</h2>
         </div>
@@ -66,7 +53,7 @@ const Inventories = () => {
           )
         })
       )}
-      <Bar />
+      <Bar inventoryData={inventoriesData}/>
     </Container>
   );
 };

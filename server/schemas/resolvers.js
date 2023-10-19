@@ -102,9 +102,18 @@ const resolvers = {
       const user = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { inventories: inventory._id } },
-          { new: true }
-        );
-        return inventory
+          { new: true },
+          
+          )
+          .populate({
+            path: 'inventories',
+            model: 'Inventory',
+              populate: { 
+                path: 'products',
+                model: 'Product',
+           }
+        });
+        return user
       }
       throw new AuthenticationError('You need to be logged in!');
 
@@ -181,7 +190,7 @@ const resolvers = {
     },
 
     removeProductFromInventory: async (parent, { inventoryId, productId }, context) => {
-      //if (context.user) {
+      if (context.user) {
         let inventory = await Inventory.findOneAndUpdate(
           { _id: inventoryId, products: productId },
           { 
@@ -203,12 +212,12 @@ const resolvers = {
         .exec();
         console.log(inventory)
         return inventory
-      //}
-      //throw new AuthenticationError('You need to be logged in!');
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
 
   addProductQuantity: async (parent, { inventoryId, productId }, context) => {
-    //if (context.user) {
+    if (context.user) {
       let inventory = await Inventory.findOneAndUpdate(
         { _id: inventoryId, products: productId },
         { 
@@ -230,8 +239,8 @@ const resolvers = {
       .exec();
       console.log(inventory)
       return inventory
-    //}
-    //throw new AuthenticationError('You need to be logged in!');
+    }
+    throw new AuthenticationError('You need to be logged in!');
   },
 }
 };

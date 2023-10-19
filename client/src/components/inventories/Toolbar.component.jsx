@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ButtonToolbar, Modal, Button } from 'react-bootstrap';
 import AddInventoryForm from './AddInventoryModal.component';
 
 
-const Bar = () => {
+const Bar = ({inventoryData}) => {
     const [ showAddInventoryModal, setShowAddInventoryModal ] = useState(false);
+    useEffect(() => {
+     
+    }, [inventoryData, showAddInventoryModal]);
 
     return (
         <>
@@ -22,7 +25,7 @@ const Bar = () => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AddInventoryForm handleModalClose={() => setShowAddInventoryModal(false)} />
+            <AddInventoryForm inventoryData={inventoryData} handleModalClose={() => setShowAddInventoryModal(false)} />
         </Modal.Body>
       </Modal>
       </>
