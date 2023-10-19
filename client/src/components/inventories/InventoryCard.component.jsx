@@ -19,7 +19,6 @@ const InventoryCard = ({ inventory, onRemoveInventory }) => {
       setProductData(inventory.products);
       console.log(productData);
     }
-    
   }, [inventory, productData]);
 
   const reduceProductToQuantity = (products) => {
